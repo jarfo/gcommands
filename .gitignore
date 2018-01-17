@@ -1,0 +1,5 @@
+data/speech_commands/
+__pycache__/
+*.tar.gz
+.DS_Store
+*.pyc
