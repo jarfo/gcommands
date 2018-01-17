@@ -6,7 +6,7 @@ Training Deep Learning models using [Google Speech Commands Dataset](https://res
 ## Features
 * Training and testing basic ConvNets and TDNNs.
 * Standard Train, Test, Valid folders for the Google Speech Commands Dataset.
-* Kaggle Dataset loader.
+* Dataset loader for standard [Kaldi](https://github.com/kaldi-asr/kaldi) speech data folders (files and pipes).
 
 ## Requirements
 
@@ -31,14 +31,14 @@ on Linux:
 ### Google Speech Commands Dataset
 To download and extract the [Google Speech Commands Dataset](https://research.googleblog.com/2017/08/launching-speech-commands-dataset.html) run the following command:
 ```
-././download_audio.sh
+./download_audio.sh
 ```
 
 ### Training
 Use `python run.py --help` for more parameters and options.
 
 ```
-python run.py --train_path <train_data_path> --valid_path <valid_data_path> --test_path <test_data_path>
+python run.py --arc VGG16 --checkpoint VGG16 --num_workers 10
 ```
 
 ### Results (Isolated word recognition, 31 words)
@@ -46,4 +46,4 @@ Accuracy results for the train, validation and test sets using the default param
 
 | Model | Train acc. | Valid acc. | Test acc.|
 | ------------- | ------------- | ------------- | ------------- |
-| VGG16  |  97% (49793/51088) | 94% (6361/6798) | 94% (6432/6835) |
+Work in progress...

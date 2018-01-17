@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Data generator for Google speech commands data set."""
+"""Data generator for the Google speech commands data set."""
 
 from __future__ import division
 
