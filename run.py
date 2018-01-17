@@ -52,7 +52,7 @@ def main():
     parser.add_argument('--window_stride', type=float, default=.01, help='window stride for the stft')
     parser.add_argument('--window_type', default='hamming', help='window type for the stft')
     parser.add_argument('--no-normalize', dest='normalize', action='store_false', help='do not not to normalize the spect')
-    parser.add_argument('--num_workers', type=int, default=0, help='int, how many subprocesses to use for data loading')
+    parser.add_argument('--num_workers', type=int, default=4, help='int, how many subprocesses to use for data loading')
 
     args = parser.parse_args()
     print(args)

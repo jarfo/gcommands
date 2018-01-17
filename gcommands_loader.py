@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Data generator for the Google speech commands data set."""
+"""Data generator for the Google speech commands data set using standard Kaldi data folders."""
 
 from __future__ import division
 
@@ -88,13 +88,13 @@ def make_dataset(kaldi_path, class_to_id):
     with open(text_path, 'rt') as text:
         key_to_word = dict()
         for line in text:
-            key, word = line.strip().split(maxsplit=1)
+            key, word = line.strip().split(' ', 1)
             key_to_word[key] = word
 
     with open(wav_path, 'rt') as wav_scp:
         key_to_wav = dict()
         for line in wav_scp:
-            key, wav = line.strip().split(maxsplit=1)
+            key, wav = line.strip().split(' ', 1)
             key_to_wav[key] = wav
 
     wavs = []
