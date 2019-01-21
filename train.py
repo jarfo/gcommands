@@ -50,7 +50,7 @@ def test(loader, model, cuda, verbose=True, data_set='Test', save=None):
 
     with torch.no_grad():
         for keys, data, target in loader:
-            criterion = nn.CrossEntropyLoss(size_average=False)
+            criterion = nn.CrossEntropyLoss(reduction='sum')
             if cuda:
                 data, target = data.cuda(), target.cuda()
                 criterion = criterion.cuda()
@@ -63,7 +63,7 @@ def test(loader, model, cuda, verbose=True, data_set='Test', save=None):
                     print(key+'.wav,'+loader.dataset.classes[int(pred[i])], file=csv)
 
     test_loss /= len(loader.dataset)
-    accuracy = correct / len(loader.dataset)
+    accuracy = float(correct) / len(loader.dataset)
     if verbose:
         print('\n{} set: Average loss: {:.4f}, Accuracy: {}/{} ({:.1f}%)\n'.format(
             data_set, test_loss, correct, len(loader.dataset), 100 * accuracy))
