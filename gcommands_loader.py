@@ -130,7 +130,7 @@ def param_loader(path, window_size, window_stride, window, normalize, max_len):
     # melspectrogram
     S = librosa.stft(y, n_fft=n_fft, hop_length=hop_length, win_length=win_length, window=window, center=False)
     D = np.abs(S)
-    param = librosa.feature.melspectrogram(S=D, n_mels=40, fmin=lowfreq, fmax=highfreq, norm=None)
+    param = librosa.feature.melspectrogram(S=D, sr=sfr, n_mels=40, fmin=lowfreq, fmax=highfreq, norm=None)
 
     # Add zero padding to make all param with the same dims
     if param.shape[1] < max_len:

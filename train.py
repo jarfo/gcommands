@@ -14,8 +14,8 @@
 # limitations under the License.
 
 from __future__ import print_function, division
+import torch
 import torch.nn as nn
-from torch.autograd import Variable
 
 
 def train(loader, model, optimizer, epoch, cuda, log_interval, weight=None, verbose=True):
@@ -26,17 +26,16 @@ def train(loader, model, optimizer, epoch, cuda, log_interval, weight=None, verb
         if cuda:
             data, target = data.cuda(), target.cuda()
             criterion = criterion.cuda()
-        data, target = Variable(data), Variable(target)
         optimizer.zero_grad()
         output = model(data)
         loss = criterion(output, target)
         loss.backward()
         optimizer.step()
-        global_epoch_loss += loss.data[0]
+        global_epoch_loss += loss.data.item()
         if verbose:
             if batch_idx % log_interval == 0:
                 print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
-                    epoch, batch_idx * len(data), len(loader.dataset), 100. * batch_idx / len(loader), loss.data[0]))
+                    epoch, batch_idx * len(data), len(loader.dataset), 100. * batch_idx / len(loader), loss.data.item()))
     return global_epoch_loss / len(loader.dataset)
 
 
@@ -49,19 +48,19 @@ def test(loader, model, cuda, verbose=True, data_set='Test', save=None):
         csv = open(save, 'wt')
         print('fname,label', file=csv)
 
-    for keys, data, target in loader:
-        criterion = nn.CrossEntropyLoss(size_average=False)
-        if cuda:
-            data, target = data.cuda(), target.cuda()
-            criterion = criterion.cuda()
-        data, target = Variable(data, volatile=True), Variable(target)
-        output = model(data)
-        test_loss += criterion(output, target).data[0]  # sum up batch loss
-        pred = output.data.max(1, keepdim=True)[1]  # get the index of the max log-probability
-        correct += pred.eq(target.data.view_as(pred)).cpu().sum()
-        if save is not None:
-            for i, key in enumerate(keys):
-                print(key+'.wav,'+loader.dataset.classes[int(pred[i])], file=csv)
+    with torch.no_grad():
+        for keys, data, target in loader:
+            criterion = nn.CrossEntropyLoss(size_average=False)
+            if cuda:
+                data, target = data.cuda(), target.cuda()
+                criterion = criterion.cuda()
+            output = model(data)
+            test_loss += criterion(output, target).data.item()  # sum up batch loss
+            pred = output.data.max(1, keepdim=True)[1]  # get the index of the max log-probability
+            correct += pred.eq(target.data.view_as(pred)).cpu().sum()
+            if save is not None:
+                for i, key in enumerate(keys):
+                    print(key+'.wav,'+loader.dataset.classes[int(pred[i])], file=csv)
 
     test_loss /= len(loader.dataset)
     accuracy = correct / len(loader.dataset)
