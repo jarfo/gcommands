@@ -15,7 +15,7 @@
 
 """Data generator for the Google speech commands data set using standard Kaldi data folders."""
 
-from __future__ import division
+from __future__ import print_function, division
 
 import os.path
 import subprocess
@@ -29,10 +29,12 @@ import torch.utils.data as data
 
 # Classes defined in the TensorFlow Speech Recognition Challenge.
 # https://www.kaggle.com/c/tensorflow-speech-recognition-challenge
-CLASSES = ['bed', 'bird', 'cat', 'dog', 'down', 'eight', 'five', 'four', 'go', 'happy', 'house',
-           'left', 'marvin', 'nine', 'no', 'off', 'on', 'one', 'right', 'seven', 'sheila',
-           'silence', 'six', 'stop', 'three', 'tree', 'two', 'up', 'wow', 'yes', 'zero']
+CLASSES = ['backward', 'bed', 'bird', 'cat', 'dog', 'down', 'eight', 'five', 'follow', 'forward', 'four', 
+           'go', 'happy', 'house', 'learn', 'left', 'marvin', 'nine', 'no', 'off', 'on', 'one', 'right', 
+           'seven', 'sheila', 'six', 'stop', 'three', 'tree', 'two', 'up', 'visual', 'wow', 'yes', 'zero',
+           'silence']
 
+print("Number of labels:", len(CLASSES))
 
 # pylint: disable=ungrouped-imports
 try:

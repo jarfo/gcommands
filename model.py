@@ -21,7 +21,7 @@ import torch.nn.functional as F
 
 
 class TDNN(nn.Module):
-    def __init__(self, num_classes=31):
+    def __init__(self, num_classes=36):
         super(TDNN, self).__init__()
         self.tdnn = nn.Sequential(
             nn.Conv1d(40, 450, stride=1, dilation=1, kernel_size=3),
@@ -78,7 +78,7 @@ class TDNN(nn.Module):
 
 
 class LeNet(nn.Module):
-    def __init__(self, num_classes=31):
+    def __init__(self, num_classes=36):
         super(LeNet, self).__init__()
         self.conv1 = nn.Conv2d(1, 20, kernel_size=5)
         self.conv2 = nn.Conv2d(20, 20, kernel_size=5)
@@ -99,7 +99,7 @@ class LeNet(nn.Module):
 
 class VGG(nn.Module):
 
-    def __init__(self, vgg_name, num_classes=31):
+    def __init__(self, vgg_name, num_classes=36):
         super(VGG, self).__init__()
         self.features = make_layers(cfg[vgg_name])
         self.classifier = nn.Sequential(

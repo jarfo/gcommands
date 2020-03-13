@@ -41,7 +41,7 @@ Use `python run.py --help` for more parameters and options.
 python run.py --arc VGG16 --checkpoint VGG16 --num_workers 10
 ```
 
-### Results (Isolated word recognition, 31 words)
+### Results (Isolated word recognition, 36 words)
 Accuracy results for the validation and test sets using the default parameters (VGG16) and with data augmentation (VGG16 + sp) 
 
 | Model | Valid acc. | Test acc.| parameters and options |
