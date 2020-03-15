@@ -1,11 +1,11 @@
 # Speech Commands Recognition
 
-Training Deep Learning models using [Google Speech Commands Dataset](https://research.googleblog.com/2017/08/launching-speech-commands-dataset.html), implemented in [PyTorch](http://pytorch.org).
+Training Deep Learning models using [Google Speech Commands Dataset](https://arxiv.org/abs/1804.03209), implemented in [PyTorch](http://pytorch.org).
 <!-- This repo contains a data loader for the Kaldi data set format, as well as training scripts for single-word neural net models, written in [PyTorch](http://pytorch.org). -->
 
 ## Features
 * Training and testing basic ConvNets and TDNNs.
-* Standard Train, Test, Valid folders for the Google Speech Commands Dataset.
+* Standard Train, Test, Valid folders for the Google Speech Commands Dataset v0.02.
 * Dataset loader for standard [Kaldi](https://github.com/kaldi-asr/kaldi) speech data folders (files and pipes).
 
 ## Requirements
@@ -28,8 +28,8 @@ on Linux:
 
 ## Usage
 
-### Google Speech Commands Dataset
-To download and extract the [Google Speech Commands Dataset](https://research.googleblog.com/2017/08/launching-speech-commands-dataset.html) run the following command:
+### Google Speech Commands Dataset (v0.02)
+To download and extract the [Google Speech Commands Dataset](https://arxiv.org/abs/1804.03209) run the following command:
 ```
 ./download_audio.sh
 ```
@@ -41,12 +41,12 @@ Use `python run.py --help` for more parameters and options.
 python run.py --arc VGG16 --checkpoint VGG16 --num_workers 10
 ```
 
-### Results (Isolated word recognition, 36 words)
+### Results (Isolated word recognition, Speech Commands v0.02, 36 words)
 Accuracy results for the validation and test sets using the default parameters (VGG16) and with data augmentation (VGG16 + sp) 
 
 | Model | Valid acc. | Test acc.| parameters and options |
 | ------------- | ------------- | ------------- | ------------- | 
-| VGG16 | 95.5% | 95.9% | default |
-| VGG16 + sp | 96.0% | 96.3% | --train_path data/train_training_sp |
+| VGG16 | 96.0% | 96.1% | default |
+| VGG16 + sp | 96.5% | 96.3% | --train_path data/train_training_sp |
 
 The augmented training dataset train_training_sp is an speed perturbed version of the train_training dataset. It was obtained using the [Kaldi](https://github.com/kaldi-asr/kaldi) script [perturb_data_dir_speed_3way.sh](https://github.com/kaldi-asr/kaldi/blob/master/egs/wsj/s5/utils/data/perturb_data_dir_speed_3way.sh)

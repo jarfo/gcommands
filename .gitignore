@@ -3,3 +3,5 @@ __pycache__/
 *.tar.gz
 .DS_Store
 *.pyc
+*.t7
+*.log
