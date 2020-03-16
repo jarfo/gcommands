@@ -121,17 +121,6 @@ def make_dataset(kaldi_path, class_to_id):
 def param_loader(path, window_size, window_stride, window, normalize, max_len):
     y, sfr = wav_read(path)
 
-    # # window length
-    # win_length = int(sfr * window_size)
-    # hop_length = int(sfr * window_stride)
-    # n_fft = 512
-    # lowfreq = 20
-    # highfreq = sfr/2 - 400
-
-    # # melspectrogram
-    # S = librosa.stft(y, n_fft=n_fft, hop_length=hop_length, win_length=win_length, window=window, center=False)
-    # D = np.abs(S)
-    # param = librosa.feature.melspectrogram(S=D, sr=sfr, n_mels=40, fmin=lowfreq, fmax=highfreq, norm=None)
     param = mfsc(y, sfr, window_size=window_size, window_stride=window_stride, window=window, normalize=normalize, log=False, n_mels=40, preemCoef=0, melfloor=1.0)
 
     # Add zero padding to make all param with the same dims
