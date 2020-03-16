@@ -23,12 +23,11 @@ import struct
 import wave
 
 import numpy as np
-import librosa
+from mfsc import mfsc
 import torch
 import torch.utils.data as data
 
-# Classes defined in the TensorFlow Speech Recognition Challenge.
-# https://www.kaggle.com/c/tensorflow-speech-recognition-challenge
+# Words for Google Speech Commands v0.02 plus 'silence' for noise recordings
 CLASSES = ['backward', 'bed', 'bird', 'cat', 'dog', 'down', 'eight', 'five', 'follow', 'forward', 'four', 
            'go', 'happy', 'house', 'learn', 'left', 'marvin', 'nine', 'no', 'off', 'on', 'one', 'right', 
            'seven', 'sheila', 'six', 'stop', 'three', 'tree', 'two', 'up', 'visual', 'wow', 'yes', 'zero',
@@ -68,7 +67,7 @@ def wav_read(pipe):
 def get_classes():
     classes = CLASSES
     weight = None
-    class_to_id = {classes[i]: i for i in range(len(classes))}
+    class_to_id = {label: i for i, label in enumerate(classes)}
     return classes, weight, class_to_id
 
 
@@ -122,17 +121,18 @@ def make_dataset(kaldi_path, class_to_id):
 def param_loader(path, window_size, window_stride, window, normalize, max_len):
     y, sfr = wav_read(path)
 
-    # window length
-    win_length = int(sfr * window_size)
-    hop_length = int(sfr * window_stride)
-    n_fft = 512
-    lowfreq = 20
-    highfreq = sfr/2 - 400
+    # # window length
+    # win_length = int(sfr * window_size)
+    # hop_length = int(sfr * window_stride)
+    # n_fft = 512
+    # lowfreq = 20
+    # highfreq = sfr/2 - 400
 
-    # melspectrogram
-    S = librosa.stft(y, n_fft=n_fft, hop_length=hop_length, win_length=win_length, window=window, center=False)
-    D = np.abs(S)
-    param = librosa.feature.melspectrogram(S=D, sr=sfr, n_mels=40, fmin=lowfreq, fmax=highfreq, norm=None)
+    # # melspectrogram
+    # S = librosa.stft(y, n_fft=n_fft, hop_length=hop_length, win_length=win_length, window=window, center=False)
+    # D = np.abs(S)
+    # param = librosa.feature.melspectrogram(S=D, sr=sfr, n_mels=40, fmin=lowfreq, fmax=highfreq, norm=None)
+    param = mfsc(y, sfr, window_size=window_size, window_stride=window_stride, window=window, normalize=normalize, log=False, n_mels=40, preemCoef=0, melfloor=1.0)
 
     # Add zero padding to make all param with the same dims
     if param.shape[1] < max_len:
@@ -145,14 +145,6 @@ def param_loader(path, window_size, window_stride, window, normalize, max_len):
 
     param = torch.FloatTensor(param)
 
-    # z-score normalization
-    if normalize:
-        mean = param.mean()
-        std = param.std()
-        if std != 0:
-            param.add_(-mean)
-            param.div_(std)
-
     return param
 
 
@@ -161,7 +153,7 @@ class Loader(data.Dataset):
 
     Args:
         root (string): Kaldi directory path.
-        transform (callable, optional): A function/transform that takes in an PIL image
+        transform (callable, optional): A function/transform that takes in a spectrogram
             and returns a transformed version. E.g, ``transforms.RandomCrop``
         target_transform (callable, optional): A function/transform that takes in the
             target and transforms it.
@@ -178,7 +170,7 @@ class Loader(data.Dataset):
     """
 
     def __init__(self, root, transform=None, target_transform=None, window_size=.02,
-                 window_stride=.01, window_type='hamming', normalize=True, max_len=97):
+                 window_stride=.01, window_type='hamming', normalize=True, max_len=99):
         classes, weight, class_to_id = get_classes()
         wavs = make_dataset(root, class_to_id)
         if not wavs:

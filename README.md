@@ -10,8 +10,9 @@ Training Deep Learning models using [Google Speech Commands Dataset](https://arx
 
 ## Requirements
 
-* Install [PyTorch](https://github.com/pytorch/pytorch#installation)
-* Install [SoX](http://sox.sourceforge.net/)
+* Python 3.6+
+* [PyTorch](https://github.com/pytorch/pytorch#installation)
+* [SoX](http://sox.sourceforge.net/)
 
 To install SoX on Mac with [Homebrew](https://brew.sh):
 
@@ -20,11 +21,6 @@ To install SoX on Mac with [Homebrew](https://brew.sh):
 on Linux:
 
 ```sudo apt-get install sox```
-
-
-* Install [LibRosa](https://github.com/librosa/librosa) with pip:
-
-```pip install librosa```
 
 ## Usage
 
