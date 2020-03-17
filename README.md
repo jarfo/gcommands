@@ -42,7 +42,7 @@ Accuracy results for the validation and test sets using the default parameters (
 
 | Model | Valid acc. | Test acc.| parameters and options |
 | ------------- | ------------- | ------------- | ------------- | 
-| VGG16 | 96.0% | 96.1% | default |
-| VGG16 + sp | 96.5% | 96.3% | --train_path data/train_training_sp |
+| VGG16 | 96.3% | 96.4% | default |
+| VGG16 + sp | 96.6% | 96.7% | --train_path data/train_training_sp |
 
 The augmented training dataset train_training_sp is an speed perturbed version of the train_training dataset. It was obtained using the [Kaldi](https://github.com/kaldi-asr/kaldi) script [perturb_data_dir_speed_3way.sh](https://github.com/kaldi-asr/kaldi/blob/master/egs/wsj/s5/utils/data/perturb_data_dir_speed_3way.sh)
