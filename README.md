@@ -31,10 +31,10 @@ To download and extract the [Google Speech Commands Dataset](https://arxiv.org/a
 ```
 
 ### Training
-Use `python run.py --help` for more parameters and options.
+Use `python3 run.py --help` for more parameters and options.
 
 ```
-python run.py --arc VGG16 --checkpoint VGG16 --num_workers 10
+python3 run.py --arc VGG16 --checkpoint VGG16 --num_workers 10
 ```
 
 ### Results (Isolated word recognition, Speech Commands v0.02, 36 words)
